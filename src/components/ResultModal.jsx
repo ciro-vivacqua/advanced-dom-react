@@ -1,4 +1,5 @@
 import { useImperativeHandle, useRef } from "react";
+import { createPortal } from 'react-dom';
 
 export default function ResultModal({ targetTime, ref, remainingTime, onClose }) {
     const dialog = useRef();
@@ -18,7 +19,8 @@ export default function ResultModal({ targetTime, ref, remainingTime, onClose })
         }
     }));
 
-    return (
+    // Create a portal to render the dialog in a different part of the DOM
+    return createPortal(
         // Without the onClose prop, when using the esc key, the function will not be called
         <dialog ref={dialog} className="result-modal" onClose={onClose}>
             <h2>
@@ -31,6 +33,7 @@ export default function ResultModal({ targetTime, ref, remainingTime, onClose })
             <form method="dialog">
                 <button onClick={onClose}>Close</button>
             </form>
-        </dialog>
+        </dialog>,
+        document.getElementById('modal')
     );
 }
